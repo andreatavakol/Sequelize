@@ -30,6 +30,7 @@ function createTable(json) {
 
     //console.log(json['data'][0]['hall_id'])
     let table = document.createElement("table");
+    document.body.appendChild(table);
     createTableBody(table);
     createTableHead(table);
     table.setAttribute("class", "table is-bordered");
