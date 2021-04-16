@@ -17,7 +17,7 @@ function pickTen(json) {
     return result;
 }
 
-function createChart(json1, json2) {
+function createChart(json) {
     //returns if json arguments are null or empty
     if (json1 == null || json1.length === 0 || json2 == null || json2.length === 0) return;
 
@@ -25,7 +25,7 @@ function createChart(json1, json2) {
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         title:{
-            text: "Sample Meals and Nutrition"
+            text: "Sample Meals and Their Nutrition"
         },
         axisX: {
             valueFormatString: ""
@@ -42,7 +42,7 @@ function createChart(json1, json2) {
         },
         data: [{
             type: "stackedBar",
-            name: "Meals",
+            name: "Calories",
             showInLegend: "true",
             dataPoints: [
                 { x: new Date(2017, 0, 30), y: 56 },
@@ -67,6 +67,8 @@ function createChart(json1, json2) {
         chart.render();
     }
     //end external code
+
+    console.log('done making chart');
 }
 
 function createTable(json) {
@@ -115,17 +117,16 @@ async function windowActions() {
     const diningJson = await diningRequest.json();
     let diningObj = diningJson;
 
+    //getting all meals and respective macros
     const mealsAndMacrosRequest = await fetch('/api/macroChart');
     const mealsAndMacrosJson = await mealsAndMacrosRequest.json();
     let mealsAndMacrosObj = mealsAndMacrosJson;
-
-    console.log(mealsAndMacrosObj);
 
     //randomly picking 10 meals
     const tenMeals = pickTen(mealsAndMacrosObj);
     console.log(tenMeals);
 
-    //createChart(mealsObj, macrosObj);
+    createChart(mealsAndMacrosObj);
     createTable(diningObj);
     console.log('done everything');
 }

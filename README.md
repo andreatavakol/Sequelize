@@ -248,6 +248,40 @@
     Successfully Updated
 <hr>
 
+## Listing meals and macros together
+
+#### REQUEST
+
+`GET /api/macroChart`
+
+    curl http://localhost:3000/api/macroChart
+
+#### Response
+
+[{
+        "id":1,
+        "name":"Crab Cream Croquettes",
+        "calories":218,
+        "carbs":5,
+        "sodium":206,
+        "protein":26,
+        "fat":16
+        "cholesterol":75,
+    },
+    {
+        "id":2,
+        "name":"Cheesecake",
+        "calories":350,
+        "carbs":20,
+        "sodium":150,
+        "protein":17,
+        "fat":32
+        "cholesterol":544,
+    },
+        ...
+]
+
+
 # Custom Client SQL
 
 #### Request
