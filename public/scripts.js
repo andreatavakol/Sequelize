@@ -3,8 +3,6 @@ function pickTen(json) {
     if (json == null || json.length === 0) return;
 
     const result = [];
-    //i don't know why it spits out 10 results when i set it to i < 22
-    //but some things are just better left alone
     for (let i = 0; i < json.length; i++) {
         const random = Math.floor(Math.random() * json.length);
         if (result.length === 10) break;
@@ -19,19 +17,23 @@ function pickTen(json) {
 
 function createChart(json) {
     //returns if json arguments are null or empty
-    if (json1 == null || json1.length === 0 || json2 == null || json2.length === 0) return;
+    if (json == null || json.length === 0) return;
+
+    const calories = [];
+    const carbs = [];
+    const sodium = [];
+    const protein = [];
+    const fat = [];
+    const cholesterol = [];
 
     //external code
-    var chart = new CanvasJS.Chart("chartContainer", {
+    let chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         title:{
             text: "Sample Meals and Their Nutrition"
         },
         axisX: {
-            valueFormatString: ""
-        },
-        axisY: {
-            prefix: ""
+            interval: 1
         },
         toolTip: {
             shared: true
@@ -44,17 +46,61 @@ function createChart(json) {
             type: "stackedBar",
             name: "Calories",
             showInLegend: "true",
-            dataPoints: [
-                { x: new Date(2017, 0, 30), y: 56 },
-                { x: new Date(2017, 0, 31), y: 45 },
-                { x: new Date(2017, 1, 1), y: 71 },
-                { x: new Date(2017, 1, 2), y: 41 },
-                { x: new Date(2017, 1, 3), y: 60 },
-                { x: new Date(2017, 1, 4), y: 75 },
-                { x: new Date(2017, 1, 5), y: 98 }
-            ]
+            dataPoints: calories
+        },
+        {
+            type: "stackedBar",
+            name: "Carbs",
+            showInLegend: "true",
+            dataPoints: carbs 
+        },
+        {
+            type: "stackedBar",
+            name: "Sodium",
+            showInLegend: "true",
+            dataPoints: sodium 
+        },
+        {
+            type: "stackedBar",
+            name: "Protein",
+            showInLegend: "true",
+            dataPoints: protein 
+        },
+        {
+            type: "stackedBar",
+            name: "Fat",
+            showInLegend: "true",
+            dataPoints: fat 
+        },
+        {
+            type: "stackedBar",
+            name: "Cholesterol",
+            showInLegend: "true",
+            dataPoints: cholesterol 
         }]
     });
+    //end external code
+
+    //my code
+    function organizeData(newArray, macro) {
+        for (let i = 0; i < json.length; i++) newArray.push({
+            label: json[i]["name"],
+            y: json[i][macro]
+        });
+        console.log(newArray);
+    }
+
+    //this is going to be so ugly but whatever
+    organizeData(calories, "calories");
+    organizeData(carbs, "carbs");
+    organizeData(sodium, "sodium");
+    organizeData(protein, "protein");
+    organizeData(fat, "fat");
+    organizeData(cholesterol, "cholesterol");
+
+   
+
+    //external code
     chart.render();
     
     function toggleDataSeries(e) {
@@ -124,9 +170,8 @@ async function windowActions() {
 
     //randomly picking 10 meals
     const tenMeals = pickTen(mealsAndMacrosObj);
-    console.log(tenMeals);
 
-    createChart(mealsAndMacrosObj);
+    createChart(tenMeals);
     createTable(diningObj);
     console.log('done everything');
 }
